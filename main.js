@@ -1,6 +1,5 @@
 function getData() {
     try{
-        //return formated text
         const data = document.getElementById("csvInput").value;
         const lines = data.split("\n");
         const headers = ["yyyy", "mm", "tmax degC", "tmin degC", "af days", "rain mm", "sun hours"]
@@ -8,9 +7,13 @@ function getData() {
         let isDataStart = false;
         for(let lineIndex=0; lineIndex < lines.length;lineIndex++){
             const line = lines[lineIndex].trim();
-            console.log(line)
             if(isDataStart){
-                const formattedLine = line.split(" ").filter(n => n != "")
+                const formattedLine = line.split(" ")
+                    .filter(n => n != "")
+                    .map((value, index) => {
+                        const num = Number(value);
+                        return !isNaN(num) ? num : value;
+                    });
                 finalData.push(formattedLine);
             }
             
